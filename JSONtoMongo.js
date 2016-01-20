@@ -1,4 +1,6 @@
 'use strict';
+require('events').EventEmitter.prototype._maxListeners = 1000;
+//process.setMaxListeners(0);
 /*
   Import modules/files you may need to correctly run the script.
   Make sure to save your DB's uri in the config file, then import it with a require statement!
@@ -15,8 +17,8 @@ mongoose.connect(config.db.uri);
 /*
   Instantiate a mongoose model for each listing object in the JSON file,
   and then save it to your Mongo database
- */
-/*var importUser = JSON.parse(importList);
+  */ 
+/*
 new Listing({
   code: importList.code,
   name: importList.name,
@@ -25,16 +27,27 @@ new Listing({
     longitude: importList.longitude,
   },
   address: importList.address
-}); */
-
-var listData = JSON.parse(importList);
-//var importUser = JSON.stringify(listData);
-var list = new Listing(listData);
-
-list.save(function(err) {
-  if (err) throw err;
-  console.log('User created!');
 });
+*/
+
+//Returns an array where each element is a listing
+
+
+var listData = JSON.parse(fs.readFileSync('listings.json', 'utf8')).entries;
+var i = 0;
+
+var callback = function(){
+  if (i >= listData.length)
+    mongoose.disconnect();
+}
+
+for(i; i <listData.length; i++){
+   var entry = new Listing(listData[i]);
+   entry.save(callback);
+}
+
+
+console.log(listData.length);
 
 /*
   Once you've written + run the script, check out your MongoLab database to ensure that

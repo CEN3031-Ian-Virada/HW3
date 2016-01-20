@@ -8,25 +8,30 @@ var fs = require('fs'),
     Schema = mongoose.Schema,
     Listing = require('./ListingSchema.js'),
     importList = require('./listings.json'),
-    config = require('./config');
+    config = require('./config.js');
 
 /* Connect to your database */
-mongoose.connect(config.uri);
+mongoose.connect(config.db.uri);
 /*
   Instantiate a mongoose model for each listing object in the JSON file,
   and then save it to your Mongo database
  */
-var importUser = new Listing({
-  code: '111', //importList.code,
-  name: '222', //importList.name,
+/*var importUser = JSON.parse(importList);
+new Listing({
+  code: importList.code,
+  name: importList.name,
   coordinates: {
-    latitude: '333', //importList.latitude,
-    longitude: '444', //importList.longitude,
+    latitude: importList.latitude,
+    longitude: importList.longitude,
   },
-  address: '555' //importList.address
-});
+  address: importList.address
+}); */
 
-importUser.save(function(err) {
+var listData = JSON.parse(importList);
+//var importUser = JSON.stringify(listData);
+var list = new Listing(listData);
+
+list.save(function(err) {
   if (err) throw err;
   console.log('User created!');
 });

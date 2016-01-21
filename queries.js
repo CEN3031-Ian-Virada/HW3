@@ -17,6 +17,7 @@ var findLibraryWest = function() {
     if (err) throw err;
 
     console.log(listing);
+    console.log('\n\n');
    });
 };
 var removeCable = function() {
@@ -25,14 +26,9 @@ var removeCable = function() {
     on cable TV. Since we live in the 21st century and most courses are now web based, go ahead
     and remove this listing from your database and log the document to the console.
    */
-   Listing.find({ code: 'CABL' }, function(err, listing) {
-     if(err) throw err;
-
-     listing.remove(function(err) {
-       if(err) throw err;
-
-       console.log('Listing deleted.');
-     });
+   Listing.findOneAndRemove({ code: 'CABL' }, function(err) {
+    if(err) throw err;
+    console.log("Listing deleted\n\n");
    });
 };
 var updatePhelpsMemorial = function() {
@@ -40,12 +36,12 @@ var updatePhelpsMemorial = function() {
     Phelps Memorial Hospital Center's address is incorrect. Find the listing, update it, and then
     log the updated document to the console.
    */
-   Listing.find({ code: 'PHL' }, function(err, listing){
-     if(err) throw err;
-     listing.address = '100 Phelps Lab, P.O. box 116350, Gainesville, FL 32611';
-     listing.coordinates.longitude = -82.348809;
-     listing.coordinates.latitude = 29.644891;
-   });
+   Listing.findOneAndUpdate( {name: "Phelps Laboratory"}, {address: "100 Phelps Lab P.O. Box 116350 Gainesville, FL  32611", 
+   coordinates:  { latitude: 29.621042, longitude: -82.366337}}, {'new': true }, function(err, listing) {
+    if (err) throw err;
+    console.log(listing);
+    console.log('\n\n');
+  });
 };
 var retrieveAllListings = function() {
   /*
@@ -54,7 +50,7 @@ var retrieveAllListings = function() {
    Listing.find({}, function(err, listing) {
     if(err) throw err;
 
-    console.log(listing);
+    //console.log(listing);
    });
 };
 

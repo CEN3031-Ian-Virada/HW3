@@ -35,10 +35,15 @@ new Listing({
 
 var listData = JSON.parse(fs.readFileSync('listings.json', 'utf8')).entries;
 var i = 0;
+var j = 0;
 
-var callback = function(){
-  if (i >= listData.length)
+var callback = function(err){
+  if(err) throw err;
+  j++;
+  if(j == i){
+    console.log("Import complete");
     mongoose.disconnect();
+  }
 }
 
 for(i; i <listData.length; i++){

@@ -15,7 +15,6 @@ var findLibraryWest = function() {
    */
    Listing.find({ code: 'LBW' }, function(err, listing) {
     if (err) throw err;
-
     console.log(listing);
     console.log('\n\n');
    });
@@ -26,9 +25,10 @@ var removeCable = function() {
     on cable TV. Since we live in the 21st century and most courses are now web based, go ahead
     and remove this listing from your database and log the document to the console.
    */
-   Listing.findOneAndRemove({ code: 'CABL' }, function(err) {
+   Listing.findOneAndRemove({ code: 'CABL' }, function(err, listing) {
     if(err) throw err;
-    console.log("Listing deleted\n\n");
+    console.log(listing);
+    console.log("\n\n");
    });
 };
 var updatePhelpsMemorial = function() {
@@ -50,7 +50,7 @@ var retrieveAllListings = function() {
    Listing.find({}, function(err, listing) {
     if(err) throw err;
 
-    //console.log(listing);
+    console.log(listing);
    });
 };
 
@@ -60,3 +60,4 @@ findLibraryWest();
 removeCable();
 updatePhelpsMemorial();
 retrieveAllListings();
+//mongoose.disconnect();
